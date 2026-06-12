@@ -8,26 +8,21 @@ export interface CameraState {
 }
 
 /**
- * Predefined first-person camera states.
- * All positions tuned so the selected monitor fills roughly 70–80% of the
- * viewport at 16:9 — the aspect-ratio pull-back in CameraController handles
- * narrower windows automatically.
+ * Predefined first-person camera states for the 3×2 monitor grid.
+ * All positions keep the camera on the operator-side of the desk (Z > 0).
+ * The aspect-ratio pull-back in CameraController handles narrower viewports.
  */
 export const CAMERA_STATES: Record<ViewId, CameraState> = {
-  // Full-desk seated view — everything visible, no overflow
-  overview: { position: [0, 1.52, 1.65], target: [0, 1.22, -0.58] },
+  // Full desk — seated view showing all six monitors
+  overview: { position: [0, 1.52, 2.15],  target: [0, 1.40, -0.68] },
 
-  // Centre terminal — look straight at it, pull back slightly
-  home:     { position: [0, 1.32, 0.05],      target: [0, 1.32, -0.62] },
+  // ── Top row ──
+  about:    { position: [-0.72, 1.81, 0.06], target: [-0.96, 1.81, -0.64] },
+  home:     { position: [0,     1.81, 0.06], target: [0,     1.81, -0.64] },
+  skills:   { position: [0.72,  1.81, 0.06], target: [0.96,  1.81, -0.64] },
 
-  // Side monitors — camera shifts to face the angled monitor
-  about:    { position: [-0.78, 1.28, 0.06],  target: [-1.08, 1.28, -0.52] },
-  skills:   { position: [0.78, 1.28, 0.06],   target: [1.08, 1.28, -0.52] },
-
-  // Upper ultrawide
-  projects: { position: [0, 1.90, 0.12],      target: [0, 2.0, -0.74] },
-
-  // Lower secondary screens
-  cv:       { position: [0.52, 1.10, 0.32],   target: [0.64, 0.96, -0.44] },
-  contact:  { position: [-0.52, 1.10, 0.32],  target: [-0.64, 0.96, -0.44] },
+  // ── Bottom row ── (screen centre sits at Y≈1.17 inside the frame)
+  projects: { position: [-0.72, 1.20, 0.08], target: [-0.96, 1.17, -0.72] },
+  contact:  { position: [0,     1.20, 0.08], target: [0,     1.17, -0.72] },
+  cv:       { position: [0.72,  1.20, 0.08], target: [0.96,  1.17, -0.72] },
 };

@@ -12,22 +12,28 @@ import { CVScreen } from '../screens/CVScreen';
 import { ContactScreen } from '../screens/ContactScreen';
 
 /**
- * Monitor wall layout (all screens live on roughly the same Z plane, ~−0.5).
- * Nothing extends forward past Z ≈ −0.35 so the overview camera at Z=1.6
- * keeps everything comfortably in frame without viewport overflow.
+ * Clean 3×2 monitor grid — all six screens identical dimensions (0.82 × 0.52).
  *
- *          [  PROJECTS  – upper wide  ]
- *  [ABOUT]  [  HOME – centre terminal ]  [SKILLS]
- *  [CONT.]  [                         ]  [ CV  ]
+ *   TOP ROW    About  │  Home  │  Skills     Y=1.81  Z=−0.64 (VESA arms)
+ *   BOT ROW  Projects │Contact │    CV       Y=1.15  Z=−0.72 (desk stands)
+ *
+ * Outer columns have mild inward rotateY (±0.28 rad ≈ ±16°) so they feel
+ * physically placed.  The bottom row sits on neck+base stands whose feet
+ * rest flush on the desk surface (desk top Y=0.74; frame half-height 0.302
+ * + stand drop 0.108 ⇒ monitor centre Y=1.15).  Top row clears the bottom
+ * row's top edge (1.452) by ~0.06.
  */
 export default function WorkstationScene({ reducedMotion }: { reducedMotion: boolean }) {
   const setView = useSignalStore((s) => s.setView);
+
+  const W = 0.82;
+  const H = 0.52;
 
   return (
     <Canvas
       dpr={[1, 1.5]}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
-      camera={{ fov: 55, near: 0.05, far: 30, position: [0, 1.42, 2.2] }}
+      camera={{ fov: 55, near: 0.05, far: 30, position: [0, 1.48, 2.2] }}
       onPointerMissed={() => setView('overview')}
     >
       <color attach="background" args={['#05070b']} />
@@ -37,89 +43,47 @@ export default function WorkstationScene({ reducedMotion }: { reducedMotion: boo
       <RoomEnvironment reducedMotion={reducedMotion} />
       <DeskObjects />
 
-      {/* ── Upper wide — project archive ─────────────────────── */}
-      <Monitor
-        id="projects"
-        position={[0, 2.0, -0.74]}
-        rotation={[0.14, 0, 0]}
-        width={1.15}
-        height={0.40}
-        label="OPEN PROJECT ARCHIVE"
-        accent="#ff3df5"
-        mount="arm"
-      >
-        <ProjectsScreen />
-      </Monitor>
+      {/* ── TOP ROW ──────────────────────────────────────────── */}
 
-      {/* ── Centre — hero / terminal ─────────────────────────── */}
-      <Monitor
-        id="home"
-        position={[0, 1.32, -0.62]}
-        width={0.92}
-        height={0.54}
-        label="OPEN MAIN TERMINAL"
-        accent="#36f9d8"
-      >
-        <MainTerminalScreen />
-      </Monitor>
+      <Monitor id="about"
+        position={[-0.96, 1.81, -0.64]} rotation={[0, 0.28, 0]}
+        width={W} height={H}
+        label="OPEN OPERATOR PROFILE" accent="#ffb347" mount="arm"
+      ><AboutScreen /></Monitor>
 
-      {/* ── Left — operator profile ──────────────────────────── */}
-      {/* Pulled in from −1.18 → −1.08 and the Y rotation reduced so
-          the left edge doesn't clip on narrower viewports */}
-      <Monitor
-        id="about"
-        position={[-1.08, 1.28, -0.52]}
-        rotation={[0, 0.46, 0]}
-        width={0.76}
-        height={0.50}
-        label="OPEN OPERATOR PROFILE"
-        accent="#ffb347"
-      >
-        <AboutScreen />
-      </Monitor>
+      <Monitor id="home"
+        position={[0, 1.81, -0.64]}
+        width={W} height={H}
+        label="OPEN MAIN TERMINAL" accent="#36f9d8" mount="arm"
+      ><MainTerminalScreen /></Monitor>
 
-      {/* ── Right — skill matrix ─────────────────────────────── */}
-      <Monitor
-        id="skills"
-        position={[1.08, 1.28, -0.52]}
-        rotation={[0, -0.46, 0]}
-        width={0.76}
-        height={0.50}
-        label="OPEN SKILL MATRIX"
-        accent="#4ac94a"
-      >
-        <SkillsScreen />
-      </Monitor>
+      <Monitor id="skills"
+        position={[0.96, 1.81, -0.64]} rotation={[0, -0.28, 0]}
+        width={W} height={H}
+        label="OPEN SKILL MATRIX" accent="#4ac94a" mount="arm"
+      ><SkillsScreen /></Monitor>
 
-      {/* ── Lower-left — contact / final transmission ────────── */}
-      {/* Moved from Z=0 (near camera, overflow) to Z=−0.44 (on the wall plane).
-          Slight downward + inward tilt reads as a secondary desk-level screen. */}
-      <Monitor
-        id="contact"
-        position={[-0.64, 0.96, -0.44]}
-        rotation={[-0.18, 0.30, 0]}
-        width={0.44}
-        height={0.32}
-        label="OPEN FINAL TRANSMISSION"
-        accent="#ffb347"
-        mount="tilt"
-      >
-        <ContactScreen />
-      </Monitor>
+      {/* ── BOTTOM ROW ───────────────────────────────────────── */}
+      {/* Desk-stand mounted: neck + base rest flush on the desk surface,
+          with visible desk between the bases and the keyboard area.    */}
 
-      {/* ── Lower-right — CV dossier ─────────────────────────── */}
-      <Monitor
-        id="cv"
-        position={[0.64, 0.96, -0.44]}
-        rotation={[-0.18, -0.30, 0]}
-        width={0.52}
-        height={0.36}
-        label="OPEN CV DOSSIER"
-        accent="#36f9d8"
-        mount="tilt"
-      >
-        <CVScreen />
-      </Monitor>
+      <Monitor id="projects"
+        position={[-0.96, 1.15, -0.72]} rotation={[0, 0.28, 0]}
+        width={W} height={H}
+        label="OPEN PROJECT ARCHIVE" accent="#ff3df5" mount="stand"
+      ><ProjectsScreen /></Monitor>
+
+      <Monitor id="contact"
+        position={[0, 1.15, -0.72]}
+        width={W} height={H}
+        label="OPEN CONTACT UPLINK" accent="#ffb347" mount="stand"
+      ><ContactScreen /></Monitor>
+
+      <Monitor id="cv"
+        position={[0.96, 1.15, -0.72]} rotation={[0, -0.28, 0]}
+        width={W} height={H}
+        label="VIEW CV DOSSIER" accent="#36f9d8" mount="stand"
+      ><CVScreen /></Monitor>
     </Canvas>
   );
 }

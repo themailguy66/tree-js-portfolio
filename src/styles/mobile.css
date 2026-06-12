@@ -109,12 +109,12 @@
   color: var(--text-dim);
 }
 
-/* Make the fixed quick-access button thumb-reachable on mobile */
+/* On mobile keep the badge in the top-right but full-width for tap target */
 @media (max-width: 880px) {
   .rqa-trigger {
-    bottom: 16px;
-    right: 16px;
-    left: 16px;
+    top: 12px;
+    right: 12px;
+    left: 12px;
     text-align: center;
   }
 }

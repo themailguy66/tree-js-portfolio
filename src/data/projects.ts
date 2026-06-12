@@ -26,17 +26,17 @@ export const projects: Project[] = [
     name: 'TheMailHero',
     type: 'SaaS / Email Testing Platform',
     description:
-      'A full-stack SaaS platform for testing email deliverability: real-time SPF, DKIM and DMARC validation with instant results.',
+      'A production SaaS app that helps teams diagnose email deliverability issues with SPF, DKIM, and DMARC checks in one place.',
     tech: ['ASP.NET Core 9', 'React 19', 'TypeScript', 'Tailwind', 'Docker', 'Ansible', 'Prometheus'],
     problem:
-      'Diagnosing why email fails to deliver usually means juggling a dozen disconnected lookup tools.',
+      'Email authentication problems are hard to diagnose because SPF, DKIM, DMARC, DNS, and server behaviour are usually checked in separate tools.',
     built:
-      'A complete product: RESTful API with JWT auth and EF Core, React frontend, multi-server Docker architecture with automated Ansible deployments.',
+      'A complete product: ASP.NET Core API with JWT auth and EF Core, React frontend, multi-server Docker hosting, and automated Ansible deployments.',
     highlights: [
-      'Real-time SPF / DKIM / DMARC record validation',
+      'SPF, DKIM, and DMARC checks with clear pass/fail guidance',
       'Multi-server Docker architecture across two VPS instances',
-      'Rate limiting, CAPTCHA, automated SSL, daily backups',
-      'Zero-downtime deployments via GitHub Container Registry',
+      'Rate limiting, CAPTCHA, automated TLS, and daily backups',
+      'Zero-downtime deployments through GitHub Container Registry',
     ],
     github: undefined, // TODO: add repo link if public
     demo: 'https://themailhero.com',
@@ -47,16 +47,16 @@ export const projects: Project[] = [
     name: 'Custom Monitoring System',
     type: 'Infrastructure / Observability',
     description:
-      'A comprehensive Prometheus and Grafana monitoring solution for Linux servers and cloud instances.',
+      'A Prometheus and Grafana monitoring stack that makes server health, alerts, and performance trends visible before users notice problems.',
     tech: ['Prometheus', 'Grafana', 'Alertmanager', 'Node Exporter', 'ntfy.sh', 'Linux'],
     problem:
-      'Servers were a black box — failures were discovered by users instead of by alerts.',
+      'Server failures and resource pressure were too easy to miss until they became customer-facing incidents.',
     built:
-      'End-to-end observability: exporters, scrape configs, dashboards, alert routing and real-time mobile notifications.',
+      'End-to-end observability: exporters, scrape configs, dashboards, alert routing, and real-time mobile notifications.',
     highlights: [
       'Metrics collection across multiple server environments',
       'Alertmanager routing with real-time mobile notifications via ntfy.sh',
-      'Dashboards that surface performance patterns at a glance',
+      'Dashboards that surface capacity and performance patterns quickly',
     ],
     github: undefined, // TODO: add repo link if public
   },
@@ -66,16 +66,16 @@ export const projects: Project[] = [
     name: 'Hosting Automation & Ops Tooling',
     type: 'Automation / Operations',
     description:
-      'Ansible configuration and scripts for auditing and automating hosting environments, containers, services, and server state.',
+      'Ansible playbooks and scripts for auditing hosting environments, automating configuration, and reporting server state safely.',
     tech: ['Ansible', 'Bash', 'Python', 'Docker', 'Linux'],
     problem:
-      'Manual environment investigation and configuration was slow, repetitive and inconsistent between operators.',
+      'Manual environment investigation and configuration was slow, repetitive, and inconsistent between operators.',
     built:
-      'Automation and safe read-only audit tooling producing clear operational reports.',
+      'Automation and read-only audit tooling that turns server checks into clear operational reports.',
     highlights: [
-      'Reduced manual investigation time',
+      'Reduced repetitive manual investigation',
       'System configuration and automation with Ansible',
-      'Clear operational reports for the whole team',
+      'Clear operational reports for handoffs and team visibility',
     ],
     github: undefined, // TODO: add repo link if public
   },
@@ -85,12 +85,12 @@ export const projects: Project[] = [
     name: 'SIGNAL//DESK Portfolio',
     type: 'Creative Frontend / Three.js',
     description:
-      'This website itself: a cinematic first-person developer workstation portfolio.',
+      'This portfolio: a cinematic React and Three.js workstation that turns a CV into an interactive product experience.',
     tech: ['React', 'TypeScript', 'Three.js', 'Animation', 'Responsive design'],
     problem:
-      'Most developer portfolios look identical — and say nothing about how the developer thinks.',
+      'Most developer portfolios look identical and give recruiters little sense of how the developer thinks, builds, or handles polish.',
     built:
-      'A procedural 3D workstation with interactive monitors, terminal navigation and a recruiter-friendly fallback.',
+      'A procedural 3D workstation with interactive monitors, terminal navigation, responsive fallbacks, and a plain-text recruiter path.',
     highlights: [
       'First-person 3D workstation',
       'Interactive monitors',

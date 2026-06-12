@@ -48,5 +48,5 @@ export const SCREEN_LABELS: Record<ScreenId, string> = {
   skills: 'SKILL MATRIX',
   projects: 'PROJECT ARCHIVE',
   cv: 'CV DOSSIER',
-  contact: 'FINAL TRANSMISSION',
+  contact: 'CONTACT UPLINK',
 };

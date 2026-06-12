@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSignalStore, SCREEN_LABELS, type ScreenId } from '../store';
-import { profile } from '../data/profile';
 
 const NAV_ITEMS: { id: ScreenId; label: string }[] = [
   { id: 'home', label: 'HOME' },
@@ -25,11 +24,6 @@ export function NavigationHUD() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.6, duration: 0.8 }}
       >
-        <div className="hud-logo">
-          SIGNAL<span className="hud-logo-slash">//</span>DESK
-          <div className="hud-logo-sub">{profile.alias} · UPLINK STABLE</div>
-        </div>
-
         <ul className="hud-nav-list">
           {NAV_ITEMS.map((item) => (
             <li key={item.id}>

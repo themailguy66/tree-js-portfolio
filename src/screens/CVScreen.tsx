@@ -47,14 +47,14 @@ export function CVScreen() {
           className="screen-btn"
           onClick={async () => {
             const err = await openCV();
-            setStatus(err ?? 'CV OPENED IN NEW TAB');
+            setStatus(err ?? 'CV OPENED IN A NEW TAB');
             setTimeout(() => setStatus(null), 4000);
           }}
         >
           ⬇ DOWNLOAD CV
         </button>
         <button className="screen-btn" onClick={() => setExpanded((e) => !e)}>
-          {expanded ? 'COLLAPSE' : 'VIEW EXPERIENCE'}
+          {expanded ? 'SHOW LESS' : 'VIEW EXPERIENCE'}
         </button>
         <button
           className="screen-btn"

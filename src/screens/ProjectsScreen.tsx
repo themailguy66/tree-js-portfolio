@@ -35,7 +35,7 @@ export function ProjectsScreen() {
             </div>
             <div className="project-actions" onClick={(e) => e.stopPropagation()}>
               <button className="screen-btn screen-btn-sm" onClick={() => setOpenProject(p)}>
-                DETAILS
+                VIEW DETAILS
               </button>
               {p.github && (
                 <a className="screen-btn screen-btn-sm" href={p.github} target="_blank" rel="noreferrer">
@@ -61,7 +61,7 @@ export function ProjectsScreen() {
               onClick={() => setOpenProject(null)}
               aria-label="Close case file"
             >
-              ✕ CLOSE FILE
+              ✕ CLOSE
             </button>
             <div className="project-case-number">{openProject.caseNumber} · DECRYPTED</div>
             <h3 className="project-name">{openProject.name}</h3>
