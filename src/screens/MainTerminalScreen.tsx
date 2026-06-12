@@ -6,8 +6,8 @@ import { TerminalInput } from '../components/TerminalInput';
 import { GlitchText } from '../components/GlitchText';
 
 const INITIAL_LINES = [
-  '> UPLINK ESTABLISHED',
-  "> type 'help' for available commands",
+  '> PROFILE READY: Lucas Boglione — backend/full-stack developer',
+  "> type 'help' or use Recruiter Quick Access",
 ];
 
 /** Centre monitor — hero / identity / terminal */
@@ -43,16 +43,16 @@ export function MainTerminalScreen() {
         <h1 className="home-title">
           <GlitchText text="SIGNAL//DESK" />
         </h1>
-        <p className="home-subtitle">INTERACTIVE DEVELOPER PORTFOLIO</p>
+        <p className="home-subtitle">BACKEND · FULL-STACK · DEVOPS PORTFOLIO</p>
         <p className="home-name">{profile.name}</p>
         <p className="home-role">{profile.role}</p>
         <p className="home-tagline">“{profile.tagline}”</p>
       </header>
 
       <div className="home-buttons">
-        <button className="screen-btn" onClick={() => setView('projects')}>OPEN PROJECTS</button>
+        <button className="screen-btn" onClick={() => setView('projects')}>VIEW PROJECTS</button>
         <button className="screen-btn" onClick={() => setView('skills')}>VIEW SKILLS</button>
-        <button className="screen-btn" onClick={() => setView('cv')}>OPEN CV</button>
+        <button className="screen-btn" onClick={() => setView('cv')}>DOWNLOAD CV</button>
         <button className="screen-btn" onClick={() => setView('contact')}>CONTACT</button>
         <button className="screen-btn screen-btn-accent" onClick={() => setQuickAccessOpen(true)}>
           RECRUITER QUICK ACCESS

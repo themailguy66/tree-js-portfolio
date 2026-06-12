@@ -21,7 +21,7 @@ const NAV_COMMANDS: Record<string, { target: ScreenId; label: string }> = {
   skills: { target: 'skills', label: 'SKILL MATRIX' },
   projects: { target: 'projects', label: 'PROJECT ARCHIVE' },
   cv: { target: 'cv', label: 'CV DOSSIER' },
-  contact: { target: 'contact', label: 'FINAL TRANSMISSION' },
+  contact: { target: 'contact', label: 'CONTACT UPLINK' },
   home: { target: 'home', label: 'MAIN TERMINAL' },
 };
 
@@ -31,15 +31,15 @@ export const HELP_TEXT = [
   '  about     — open operator profile',
   '  skills    — open skill matrix',
   '  projects  — open project archive',
-  '  cv        — open cv dossier',
-  '  contact   — open final transmission',
+  '  cv        — open CV dossier',
+  '  contact   — open contact details',
   '  clear     — clear terminal',
   '  unlock    — ???',
 ];
 
 export const UNLOCK_MESSAGE =
-  'HIDDEN FILE UNLOCKED: This portfolio was built as a real project to demonstrate ' +
-  'frontend creativity, systems thinking, and interactive UI engineering.';
+  'HIDDEN FILE UNLOCKED: This portfolio is a real React/Three.js project built to demonstrate ' +
+  'frontend creativity, systems thinking, performance awareness, and production-style polish.';
 
 export function runCommand(rawInput: string, ctx: { unlocked: boolean }): CommandResult {
   const input = rawInput.trim().toLowerCase();
@@ -63,5 +63,5 @@ export function runCommand(rawInput: string, ctx: { unlocked: boolean }): Comman
     return { output: [`> ROUTING SIGNAL → ${nav.label}`], nav: nav.target };
   }
 
-  return { output: [`> UNKNOWN COMMAND: "${input}" — type 'help' for options`] };
+  return { output: [`> UNKNOWN COMMAND: "${input}" — type 'help' or use the navigation menu`] };
 }

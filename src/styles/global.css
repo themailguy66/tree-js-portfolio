@@ -155,6 +155,34 @@ button {
   50% { opacity: 0.3; }
 }
 
+/* ── Desk nameplate (rendered in 3D via drei Html transform) ── */
+.desk-nameplate {
+  width: 240px;
+  padding: 6px 10px 6px 16px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.desk-nameplate-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #c8ede8;
+  text-shadow: 0 0 14px rgba(54, 249, 216, 0.6);
+  line-height: 1;
+}
+
+.desk-nameplate-title span {
+  color: var(--cyan);
+}
+
+.desk-nameplate-sub {
+  margin-top: 3px;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  color: rgba(54, 249, 216, 0.55);
+}
+
 /* ── Glitch text (auto-disabled under reduced motion) ───────── */
 .glitch {
   position: relative;

@@ -12,14 +12,15 @@
   line-height: 1.45;
   overflow: hidden;
 
-  /* Border reads as the inner edge of the physical bezel */
-  border: 1px solid color-mix(in srgb, var(--accent, #36f9d8) 28%, transparent);
+  /* Border reads as the inner edge of the physical bezel — neutral dark
+     plastic, never the accent colour */
+  border: 1px solid #2a2a32;
 
-  /* Outward bloom — the screen bleeds light onto the bezel around it.
-     Two layers: a tight halo + a wider soft bloom. */
+  /* Outward bloom — the screen bleeds a *subtle* wash of its own light
+     onto the dark bezel around it. Kept ≤12% so the bezel stays charcoal. */
   box-shadow:
-    0 0 18px 2px  color-mix(in srgb, var(--accent, #36f9d8) 28%, transparent),
-    0 0 55px 12px color-mix(in srgb, var(--accent, #36f9d8) 12%, transparent),
+    0 0 18px 2px  color-mix(in srgb, var(--accent, #36f9d8) 12%, transparent),
+    0 0 48px 10px color-mix(in srgb, var(--accent, #36f9d8) 5%, transparent),
     inset 0 0 70px rgba(0, 0, 0, 0.65);
 
   transition: filter 0.35s ease, box-shadow 0.35s ease;
@@ -45,8 +46,8 @@
   user-select: text;
   /* Brighten the bloom a touch when the operator is reading */
   box-shadow:
-    0 0 24px 4px  color-mix(in srgb, var(--accent, #36f9d8) 35%, transparent),
-    0 0 70px 18px color-mix(in srgb, var(--accent, #36f9d8) 15%, transparent),
+    0 0 22px 3px  color-mix(in srgb, var(--accent, #36f9d8) 16%, transparent),
+    0 0 56px 12px color-mix(in srgb, var(--accent, #36f9d8) 7%, transparent),
     inset 0 0 70px rgba(0, 0, 0, 0.6);
 }
 
@@ -57,9 +58,11 @@
 
 .screen-root.hovered {
   filter: brightness(1.2);
+  /* Hover = the strongest bleed allowed (~20%) — feedback comes from the
+     screen brightening, not the bezel changing colour */
   box-shadow:
-    0 0 26px 6px  color-mix(in srgb, var(--accent, #36f9d8) 45%, transparent),
-    0 0 80px 22px color-mix(in srgb, var(--accent, #36f9d8) 20%, transparent),
+    0 0 24px 5px  color-mix(in srgb, var(--accent, #36f9d8) 20%, transparent),
+    0 0 64px 16px color-mix(in srgb, var(--accent, #36f9d8) 9%, transparent),
     inset 0 0 70px rgba(0, 0, 0, 0.6);
 }
 
@@ -327,6 +330,16 @@
   background: linear-gradient(180deg, #0c1018, #070a10);
   border: 1px solid var(--border);
   overflow: hidden;
+}
+
+.about-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(20%) contrast(1.05);
 }
 
 /* Abstract silhouette — swap for an <img> of you if desired */

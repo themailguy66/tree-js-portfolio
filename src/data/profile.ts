@@ -11,21 +11,19 @@ export const profile = {
   /** Cosmetic operator handle shown in the HUD / boot sequence */
   alias: 'OPERATOR//07',
 
-  role: 'Developer / Systems Thinker / Backend-Focused Engineer',
+  role: 'Backend-Focused Full-Stack Developer · DevOps & Production Systems',
 
-  tagline: 'I build reliable systems, practical tools, and interfaces that feel alive.',
+  tagline: 'I build production-ready web apps, automation, and monitoring tools.',
 
   summary:
-    "I'm a developer with a strong systems mindset. I enjoy building practical software, " +
-    'debugging complex problems, automating repetitive work, and turning messy technical ' +
-    'requirements into clean, maintainable solutions. My background combines hosting ' +
-    'operations, Linux systems, backend development, frontend interfaces, Docker, ' +
-    'monitoring, and customer-facing technical problem solving.',
+    'Backend-focused full-stack developer with hands-on production operations experience. ' +
+    'I build APIs, internal tools, automation, monitoring, and polished React interfaces — ' +
+    'with a bias for clear debugging, maintainable systems, and practical fixes that work in production.',
 
   location: 'Auckland, New Zealand',
-  focus: 'Backend Development / Full-stack Tools',
-  strengths: 'Debugging, Automation, Infrastructure, APIs, UI Polish',
-  currentTarget: 'Software Developer / Backend Engineer',
+  focus: 'Backend, full-stack tools, and production operations',
+  strengths: 'Debugging, automation, infrastructure, APIs, monitoring, UI polish',
+  currentTarget: 'Backend Developer / Full-Stack Developer roles',
 
   email: 'lucasboglione@gmail.com',
   github: 'https://github.com/nzarg',
@@ -38,6 +36,9 @@ export const profile = {
    */
   cvPath: '/cv.pdf',
 
+  /** Path to your profile photo — shown in the Operator Profile screen */
+  photoPath: '/lucas-photo.jpg',
+
   /** Top skills surfaced in Recruiter Quick Access */
   topSkills: [
     'C# / ASP.NET Core',
@@ -45,7 +46,7 @@ export const profile = {
     'Linux',
     'Docker & Ansible',
     'Monitoring (Prometheus/Grafana)',
-    'RESTful APIs',
+    'REST APIs',
   ],
 };
 

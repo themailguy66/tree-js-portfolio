@@ -12,9 +12,11 @@ export function AboutScreen() {
 
       <div className="about-grid">
         <div className="about-id-card">
-          {/* Abstract operator silhouette — replace with a photo if you like */}
           <div className="about-photo" aria-hidden="true">
-            <div className="about-silhouette" />
+            {profile.photoPath
+              ? <img src={profile.photoPath} alt={profile.name} className="about-photo-img" />
+              : <div className="about-silhouette" />
+            }
             <div className="about-photo-scan" />
           </div>
           <div className="about-id-meta">
@@ -31,7 +33,7 @@ export function AboutScreen() {
             <dt>LOCATION</dt><dd>{profile.location}</dd>
             <dt>FOCUS</dt><dd>{profile.focus}</dd>
             <dt>STRENGTHS</dt><dd>{profile.strengths}</dd>
-            <dt>CURRENT TARGET</dt><dd>{profile.currentTarget}</dd>
+            <dt>OPEN TO</dt><dd>{profile.currentTarget}</dd>
           </dl>
 
           <div className="about-bars" aria-hidden="true">
@@ -47,7 +49,7 @@ export function AboutScreen() {
         </div>
       </div>
 
-      <footer className="screen-footer">FILE 7741-A · DECRYPTED · DO NOT DISTRIBUTE</footer>
+      <footer className="screen-footer">FILE 7741-A · DECRYPTED · READY FOR REVIEW</footer>
     </div>
   );
 }

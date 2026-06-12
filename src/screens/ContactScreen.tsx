@@ -6,8 +6,8 @@ export function ContactScreen() {
   return (
     <div className="screen-body contact-screen">
       <header className="screen-header">
-        <GlitchText text="FINAL TRANSMISSION" className="screen-title" />
-        <span className="screen-classification">// UPLINK · 88.7 MHz · ENCRYPTED</span>
+        <GlitchText text="CONTACT UPLINK" className="screen-title" />
+        <span className="screen-classification">// DIRECT CHANNEL · READY</span>
       </header>
 
       <div className="contact-wave" aria-hidden="true">
@@ -17,8 +17,7 @@ export function ContactScreen() {
       </div>
 
       <p className="contact-pitch">
-        Want to build something reliable, useful, and a little bit dangerous-looking?
-        Let's talk.
+        Hiring for backend, full-stack, or DevOps-heavy product work? Send a message — I’m happy to talk through the role, the stack, and how I can help.
       </p>
 
       <dl className="contact-dl">
@@ -37,7 +36,7 @@ export function ContactScreen() {
       </dl>
 
       <a className="screen-btn screen-btn-accent contact-cta" href={`mailto:${profile.email}`}>
-        ▸ SEND MESSAGE
+        ▸ EMAIL LUCAS
       </a>
     </div>
   );

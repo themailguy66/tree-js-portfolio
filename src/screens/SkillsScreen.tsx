@@ -46,7 +46,7 @@ export function SkillsScreen() {
             <strong>{selected.skill.name}</strong> — {selected.skill.detail}
           </>
         ) : (
-          <span className="skill-detail-hint">▸ SELECT A NODE TO DECRYPT USAGE DETAILS</span>
+          <span className="skill-detail-hint">▸ SELECT A SKILL TO VIEW HOW I USE IT</span>
         )}
       </div>
     </div>

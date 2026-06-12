@@ -43,9 +43,9 @@ export function MobileFallback() {
         <h1 className="mobile-title">
           <GlitchText text="SIGNAL//DESK" />
         </h1>
-        <p className="mobile-sub">INTERACTIVE DEVELOPER PORTFOLIO · {profile.alias}</p>
+        <p className="mobile-sub">BACKEND · FULL-STACK · DEVOPS PORTFOLIO · {profile.alias}</p>
         <p className="mobile-note">
-          ▸ FULL 3D WORKSTATION AVAILABLE ON DESKTOP — TRANSMITTING LIGHTWEIGHT FEED
+          ▸ FULL 3D WORKSTATION AVAILABLE ON DESKTOP — SHOWING FAST MOBILE VERSION
         </p>
         <nav className="mobile-nav" aria-label="Sections">
           {SECTIONS.map((s) => (

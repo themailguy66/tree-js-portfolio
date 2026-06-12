@@ -32,33 +32,15 @@
   padding: 10px 16px;
 }
 
-/* ── Navigation HUD (top-left) ──────────────────────────────── */
+/* ── Navigation HUD (top-left, no logo — logo lives in 3D scene) ── */
 .hud-nav {
   position: fixed;
-  top: 24px;
-  left: 24px;
+  top: 20px;
+  left: 20px;
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-.hud-logo {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--text);
-  text-shadow: 0 0 16px rgba(54, 249, 216, 0.4);
-}
-
-.hud-logo-slash { color: var(--cyan); }
-
-.hud-logo-sub {
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  color: var(--text-dim);
-  margin-top: 3px;
+  gap: 2px;
 }
 
 .hud-nav-list {
@@ -141,26 +123,28 @@
   color: var(--text-dim);
 }
 
-/* ── Recruiter Quick Access ─────────────────────────────────── */
+/* ── Recruiter Quick Access — top-right badge ───────────────── */
 .rqa-trigger {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  top: 18px;
+  right: 18px;
   z-index: 20;
-  background: rgba(255, 179, 71, 0.1);
+  background: rgba(255, 179, 71, 0.08);
   border: 1px solid var(--amber);
   color: var(--amber);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  padding: 12px 18px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  padding: 8px 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
+  /* Subtle pulse so it stays noticed without being distracting */
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.18);
 }
 
 .rqa-trigger:hover,
 .rqa-trigger:focus-visible {
-  background: rgba(255, 179, 71, 0.22);
-  box-shadow: 0 0 18px rgba(255, 179, 71, 0.35);
+  background: rgba(255, 179, 71, 0.20);
+  box-shadow: 0 0 20px rgba(255, 179, 71, 0.42);
 }
 
 .rqa-backdrop {

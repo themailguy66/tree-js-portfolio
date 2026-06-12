@@ -64,14 +64,14 @@ export function RecruiterQuickAccess() {
               <button className="rqa-close" onClick={() => setOpen(false)} aria-label="Close modal">
                 ✕
               </button>
-              <HUDPanel className="rqa-modal" title="RECRUITER QUICK ACCESS — PLAIN TEXT MODE">
+              <HUDPanel className="rqa-modal" title="RECRUITER QUICK ACCESS — SUMMARY">
 
                 <section className="rqa-section">
                   <h2>{profile.name}</h2>
                   <p className="rqa-role">{profile.role}</p>
                   <p>{profile.summary}</p>
                   <p className="rqa-meta">
-                    {profile.location} · Target: {profile.currentTarget}
+                    {profile.location} · Open to: {profile.currentTarget}
                   </p>
                 </section>
 
@@ -85,7 +85,7 @@ export function RecruiterQuickAccess() {
                 </section>
 
                 <section className="rqa-section">
-                  <h3>BEST PROJECTS</h3>
+                  <h3>FEATURED PROJECTS</h3>
                   {featured.map((p) => (
                     <div className="rqa-project" key={p.id}>
                       <strong>{p.name}</strong> <em>— {p.type}</em>
@@ -121,7 +121,7 @@ export function RecruiterQuickAccess() {
                   >
                     {copied ? '✓ COPIED' : '⧉ COPY EMAIL'}
                   </button>
-                  <a className="rqa-btn" href={`mailto:${profile.email}`}>✉ EMAIL</a>
+                  <a className="rqa-btn" href={`mailto:${profile.email}`}>✉ EMAIL LUCAS</a>
                   <a className="rqa-btn" href={profile.github} target="_blank" rel="noreferrer">GITHUB</a>
                   {profile.linkedin && (
                     <a className="rqa-btn" href={profile.linkedin} target="_blank" rel="noreferrer">LINKEDIN</a>
