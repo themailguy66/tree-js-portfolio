@@ -1,0 +1,17 @@
+# Ansible Vault password file
+.vault_pass
+
+# Environment files
+.env
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Backup files
+*.bak
+*.backup

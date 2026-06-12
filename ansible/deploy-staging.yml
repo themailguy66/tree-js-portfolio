@@ -1,0 +1,41 @@
+---
+- name: Deploy Portfolio (staging)
+  hosts: staging
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Login to GitHub Container Registry
+      community.docker.docker_login:
+        registry: ghcr.io
+        username: "{{ github_username }}"
+        password: "{{ github_token }}"
+      no_log: true
+
+    - name: Ensure shared Docker network exists
+      community.docker.docker_network:
+        name: "{{ docker_network }}"
+        state: present
+
+    - name: Pull staging portfolio image
+      community.docker.docker_image:
+        name: "{{ container_registry }}/{{ app_name }}:{{ app_version }}"
+        source: pull
+        force_source: yes
+
+    - name: Run staging portfolio container
+      community.docker.docker_container:
+        name: "{{ staging_container }}"
+        image: "{{ container_registry }}/{{ app_name }}:{{ app_version }}"
+        state: started
+        restart_policy: unless-stopped
+        recreate: yes
+        networks:
+          - name: "{{ docker_network }}"
+        memory: "{{ container_memory_limit }}"
+
+    - name: Display staging deployment status
+      debug:
+        msg:
+          - "Staging deployed: {{ app_name }}:{{ app_version }}"
+          - "URL: https://staging.lucasboglione.com"

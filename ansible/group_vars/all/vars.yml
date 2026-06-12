@@ -1,0 +1,30 @@
+# Global variables for SIGNAL//DESK portfolio deployment
+
+# Application settings
+app_name: tree-js-portfolio
+# app_version is intentionally not set here — always pass it via:
+#   ansible-playbook ... -e "app_version=<tag>"
+
+# Container settings
+container_name: "{{ app_name }}"
+staging_container: "{{ app_name }}-staging"
+container_memory_limit: "128m"
+
+# Container registry configuration - matches GitHub Actions workflow
+container_registry: "ghcr.io/themailguy66"
+
+# The portfolio containers join the shared Docker network on the frontend VM.
+# The email-tester-saas frontend nginx owns host ports 80/443 and proxies
+# lucasboglione.com / staging.lucasboglione.com to these containers.
+docker_network: mailhero-net
+
+# TLS for lucasboglione.com is terminated by the email-tester-saas frontend
+# nginx; its certs directory is mounted from this path on the host.
+edge_certs_dir: /opt/email-tester-saas-frontend/certs
+
+# Cloudflare Origin Certificate for lucasboglione.com (stored in vault)
+ssl_certificate: "{{ vault_ssl_certificate }}"
+ssl_certificate_key: "{{ vault_ssl_certificate_key }}"
+
+# System configuration
+ansible_user: ubuntu

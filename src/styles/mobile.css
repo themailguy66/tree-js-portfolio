@@ -1,0 +1,120 @@
+/* ─────────────────────────────────────────────────────────────
+   Mobile / fallback layout: stacked monitor-style cards
+   ───────────────────────────────────────────────────────────── */
+.mobile-root {
+  height: 100vh;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(54, 249, 216, 0.07), transparent 55%),
+    var(--bg);
+}
+
+.mobile-hero {
+  padding: 56px 20px 28px;
+  text-align: center;
+}
+
+.mobile-title {
+  margin: 0;
+  font-size: clamp(28px, 9vw, 44px);
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  text-shadow: 0 0 28px rgba(54, 249, 216, 0.5);
+}
+
+.mobile-sub {
+  margin: 8px 0 4px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+}
+
+.mobile-note {
+  margin: 14px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--amber);
+}
+
+.mobile-nav {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mobile-nav a {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+}
+
+.mobile-nav a:active,
+.mobile-nav a:hover { color: var(--cyan); border-color: var(--cyan); }
+
+.mobile-card {
+  margin: 0 auto 26px;
+  width: min(680px, calc(100% - 24px));
+  scroll-margin-top: 16px;
+}
+
+.mobile-card-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: rgba(8, 12, 18, 0.9);
+  padding: 8px 14px;
+}
+
+.mobile-card-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+/* Screens reused inside cards become fluid */
+.mobile-screen {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 320px;
+  font-size: 14px;
+}
+
+.mobile-screen .screen-body { height: auto; min-height: 320px; }
+.mobile-screen .projects-grid { grid-template-columns: 1fr; overflow: visible; }
+.mobile-screen .skills-grid { grid-template-columns: 1fr; overflow: visible; }
+.mobile-screen .about-grid { grid-template-columns: 1fr; }
+.mobile-screen .about-id-card { max-width: 220px; }
+.mobile-screen .about-fields { overflow: visible; }
+.mobile-screen .cv-timeline { overflow: visible; }
+.mobile-screen .home-terminal { min-height: 160px; }
+.mobile-screen .contact-dl dd { white-space: normal; }
+
+.mobile-footer {
+  text-align: center;
+  padding: 24px 0 90px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+}
+
+/* Make the fixed quick-access button thumb-reachable on mobile */
+@media (max-width: 880px) {
+  .rqa-trigger {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    text-align: center;
+  }
+}

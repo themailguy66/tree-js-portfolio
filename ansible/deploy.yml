@@ -1,0 +1,70 @@
+---
+- name: Deploy Portfolio (production)
+  hosts: frontend
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Login to GitHub Container Registry
+      community.docker.docker_login:
+        registry: ghcr.io
+        username: "{{ github_username }}"
+        password: "{{ github_token }}"
+      no_log: true
+      retries: 3
+      delay: 15
+
+    - name: Ensure shared Docker network exists
+      community.docker.docker_network:
+        name: "{{ docker_network }}"
+        state: present
+
+    - name: Write SSL certificate for {{ domain }} from vault
+      copy:
+        content: "{{ ssl_certificate }}"
+        dest: "{{ edge_certs_dir }}/lucasboglione-cert.pem"
+        owner: root
+        group: root
+        mode: '0644'
+      no_log: true
+
+    - name: Write SSL private key for {{ domain }} from vault
+      copy:
+        content: "{{ ssl_certificate_key }}"
+        dest: "{{ edge_certs_dir }}/lucasboglione-key.pem"
+        owner: root
+        group: root
+        mode: '0600'
+      no_log: true
+
+    - name: Pull portfolio image
+      community.docker.docker_image:
+        name: "{{ container_registry }}/{{ app_name }}:{{ app_version }}"
+        source: pull
+        force_source: yes
+
+    - name: Run portfolio container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ container_registry }}/{{ app_name }}:{{ app_version }}"
+        state: started
+        restart_policy: unless-stopped
+        recreate: yes
+        networks:
+          - name: "{{ docker_network }}"
+        memory: "{{ container_memory_limit }}"
+
+    - name: Test portfolio health endpoint (inside container)
+      command: docker exec {{ container_name }} curl -fsS http://localhost/health
+      register: health_check
+      until: health_check.rc == 0
+      retries: 6
+      delay: 5
+      changed_when: false
+
+    - name: Display deployment summary
+      debug:
+        msg:
+          - "🎉 Portfolio deployed: {{ app_name }}:{{ app_version }}"
+          - "🌐 https://{{ domain }} (proxied by email-tester-saas frontend nginx)"
+          - "⏰ Completed at: {{ ansible_date_time.iso8601 }}"

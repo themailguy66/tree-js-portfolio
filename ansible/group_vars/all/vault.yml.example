@@ -1,0 +1,23 @@
+# Template for ansible/group_vars/all/vault.yml
+#
+# 1. Copy this file:        cp vault.yml.example vault.yml
+# 2. Fill in real values.
+# 3. Encrypt it:            ansible-vault encrypt vault.yml
+#    (uses .vault_pass via ansible.cfg, or --ask-vault-pass)
+#
+# NEVER commit an unencrypted vault.yml.
+
+# GitHub Container Registry pull credentials (PAT with read:packages)
+github_username: "themailguy66"
+github_token: "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Cloudflare Origin Certificate for lucasboglione.com
+vault_ssl_certificate: |
+  -----BEGIN CERTIFICATE-----
+  ...
+  -----END CERTIFICATE-----
+
+vault_ssl_certificate_key: |
+  -----BEGIN PRIVATE KEY-----
+  ...
+  -----END PRIVATE KEY-----
