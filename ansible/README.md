@@ -44,3 +44,16 @@ ansible-playbook deploy.yml -e "app_version=1.0.0"
 
 In CI, staging deploys on every push to main; production deploys on `v*` tags
 or manual workflow dispatch (which also creates the tag).
+
+## Versioning gotchas
+
+- **Push to `main` deploys STAGING only.** Production needs a `v*` tag or a
+  manual *Run workflow*. A tag deploys the commit it points at, so merge to
+  `main` *before* tagging.
+- **Tags must be valid semver — no leading zeros** (`v1.0.3` ✓, `v1.0.03` ✗).
+  A direct `git push` of a tag tags the image via `docker/metadata-action`
+  `type=semver`, which **silently skips invalid-semver tags** → the production
+  deploy can't pull the image. `workflow_dispatch` tags via `type=raw` and is
+  forgiving (how `v1.0.01`/`v1.0.02` shipped), but use real semver regardless.
+- Recommended: merge → Actions → *Build and Push Container* → *Run workflow* →
+  `1.0.x`. Builds from `main`, deploys prod, pushes the tag.
