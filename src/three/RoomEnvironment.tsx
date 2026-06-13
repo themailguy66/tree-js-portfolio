@@ -1,6 +1,6 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, type RefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
-import type { Group, Mesh, Points, PointLight } from 'three';
+import type { Group, Mesh, MeshBasicMaterial, Points, PointLight } from 'three';
 import { useSignalStore } from '../store';
 
 const FLICKER_DURATION_MS = 1400;
@@ -14,8 +14,8 @@ export function RoomEnvironment({ reducedMotion }: { reducedMotion: boolean }) {
     <group>
       <Walls />
       <NeonWindow reducedMotion={reducedMotion} />
-      <ServerRack position={[-2.45, 0, -2.3]} />
-      <ServerRack position={[-2.45, 0, -1.1]} />
+      <ServerRack position={[-2.45, 0, -2.3]} reducedMotion={reducedMotion} />
+      <ServerRack position={[-2.45, 0, -1.1]} agent reducedMotion={reducedMotion} />
       {!reducedMotion && <Dust />}
       <Lights />
     </group>
@@ -145,17 +145,54 @@ function Rain() {
   );
 }
 
-/** Server rack with blinking status LEDs */
-function ServerRack({ position }: { position: [number, number, number] }) {
+/**
+ * Server rack with blinking status LEDs.
+ *
+ * When `agent` is set, the rack reads as a running background "coding agent":
+ * one teal LED breathes like a heartbeat (alive) and one red LED blinks
+ * intermittently (task/alert). The rack's volume is implied only by faint
+ * rim-light on its monitor-facing and top edges (see `AgentRackEdges`) — the
+ * LEDs are the focal point, not any enclosure.
+ */
+function ServerRack({
+  position,
+  agent = false,
+  reducedMotion = false,
+}: {
+  position: [number, number, number];
+  agent?: boolean;
+  reducedMotion?: boolean;
+}) {
   const ledRefs = useRef<(Mesh | null)[]>([]);
+  const heartbeatRef = useRef<Mesh>(null);
+  const alertRef = useRef<Mesh>(null);
   const phases = useMemo(() => Array.from({ length: 12 }, () => Math.random() * 10), []);
   const speeds = useMemo(() => Array.from({ length: 12 }, () => 2 + Math.random() * 6), []);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
+
+    // Ambient rack-unit LEDs: pseudo-random flicker (held steady when reduced).
     ledRefs.current.forEach((led, i) => {
-      if (led) led.visible = Math.sin(t * speeds[i] + phases[i]) > -0.2;
+      if (led) led.visible = reducedMotion ? true : Math.sin(t * speeds[i] + phases[i]) > -0.2;
     });
+
+    if (!agent) return;
+
+    // Heartbeat: slow brightness + scale "breathing".
+    const hb = heartbeatRef.current;
+    if (hb) {
+      const p = reducedMotion ? 1 : 0.5 + 0.5 * Math.sin(t * 1.6);
+      (hb.material as MeshBasicMaterial).opacity = 0.45 + 0.55 * p;
+      hb.scale.setScalar(0.85 + 0.3 * p);
+    }
+
+    // Alert: mostly dark, a brief double-blink roughly every 5.5s.
+    const al = alertRef.current;
+    if (al) {
+      const cycle = t % 5.5;
+      al.visible = reducedMotion ? false : cycle < 0.16 || (cycle > 0.3 && cycle < 0.46);
+    }
   });
 
   const ledColors = ['#7df95c', '#36f9d8', '#ffb347', '#ff4444'];
@@ -192,6 +229,84 @@ function ServerRack({ position }: { position: [number, number, number] }) {
           })}
         </group>
       ))}
+
+      {agent && (
+        <>
+          <AgentRackEdges />
+          <AgentIndicators heartbeatRef={heartbeatRef} alertRef={alertRef} />
+        </>
+      )}
+    </group>
+  );
+}
+
+/**
+ * Implies the rack's volume with rim-light only — no box, fill, or outline.
+ * Matches the room's lighting logic (monitors to the right, soft ambient
+ * overhead): the monitor-facing front-right vertical edge catches the most
+ * light, the top-front edge a touch less, and the wall-side edge stays dark
+ * so it dissolves into shadow. Thin `meshBasicMaterial` slivers at low opacity
+ * read as caught light rather than drawn lines.
+ */
+function AgentRackEdges() {
+  // Cabinet: [0.55, 2.1, 0.7] centred at y=1.05 → half-extents 0.275 / 1.05 / 0.35.
+  return (
+    <>
+      {/* Right-facing vertical edge (front-right corner, nearest monitor light) */}
+      <mesh position={[0.275, 1.05, 0.35]}>
+        <boxGeometry args={[0.006, 2.1, 0.006]} />
+        <meshBasicMaterial color="#c8bfa8" transparent opacity={0.13} depthWrite={false} />
+      </mesh>
+      {/* Top-front edge (catches soft ambient ceiling light — a touch dimmer) */}
+      <mesh position={[0, 2.1, 0.35]}>
+        <boxGeometry args={[0.55, 0.006, 0.006]} />
+        <meshBasicMaterial color="#d8d2c4" transparent opacity={0.08} depthWrite={false} />
+      </mesh>
+    </>
+  );
+}
+
+/**
+ * The agent's indicator LEDs — the focal point. A row on the rack face: the
+ * teal heartbeat and red alert (both animated by the parent rack) flanking
+ * three steady status dots. No enclosure.
+ */
+function AgentIndicators({
+  heartbeatRef,
+  alertRef,
+}: {
+  heartbeatRef: RefObject<Mesh | null>;
+  alertRef: RefObject<Mesh | null>;
+}) {
+  // Three steady "always-on" indicator dots flanked by the heartbeat + alert.
+  const indicators: { z: number; c: string }[] = [
+    { z: -0.075, c: '#36f9d8' },
+    { z: 0, c: '#ffb347' },
+    { z: 0.075, c: '#36f9d8' },
+  ];
+
+  return (
+    // Sitting just proud of the unit faceplate plane (x=0.279).
+    <group position={[0.281, 1.5, 0]}>
+      {/* Heartbeat LED (teal, breathing) */}
+      <mesh ref={heartbeatRef} rotation={[0, Math.PI / 2, 0]} position={[0.003, 0.035, -0.15]}>
+        <circleGeometry args={[0.015, 12]} />
+        <meshBasicMaterial color="#7df95c" transparent />
+      </mesh>
+
+      {/* Steady indicator dots */}
+      {indicators.map((d, i) => (
+        <mesh key={i} rotation={[0, Math.PI / 2, 0]} position={[0.003, 0.035, d.z]}>
+          <circleGeometry args={[0.011, 8]} />
+          <meshBasicMaterial color={d.c} />
+        </mesh>
+      ))}
+
+      {/* Alert LED (red, intermittent blink) */}
+      <mesh ref={alertRef} rotation={[0, Math.PI / 2, 0]} position={[0.003, 0.035, 0.15]}>
+        <circleGeometry args={[0.013, 10]} />
+        <meshBasicMaterial color="#ff4444" />
+      </mesh>
     </group>
   );
 }
