@@ -6,6 +6,7 @@ import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 import { BootSequence } from './components/BootSequence';
 import { NavigationHUD } from './components/NavigationHUD';
 import { RecruiterQuickAccess } from './components/RecruiterQuickAccess';
+import { Arcade } from './components/Arcade';
 import { MobileFallback } from './components/MobileFallback';
 
 // Lazy-load the heavy Three.js scene so the boot sequence appears instantly
@@ -64,6 +65,7 @@ export default function App() {
 
       {booted && <NavigationHUD />}
       {booted && <RecruiterQuickAccess />}
+      {booted && <Arcade />}
     </SceneErrorBoundary>
   );
 }
