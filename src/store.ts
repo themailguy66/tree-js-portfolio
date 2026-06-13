@@ -17,11 +17,17 @@ interface SignalState {
   flickerAt: number;
   /** Recruiter Quick Access modal open */
   quickAccessOpen: boolean;
+  /** Full-screen SIGNAL//ARCADE (Pac-Man) overlay open */
+  arcadeOpen: boolean;
+  /** Viewport point the arcade was launched from (the tablet), for the
+   *  zoom-out/zoom-in overlay transition. Null until first opened. */
+  arcadeOrigin: { x: number; y: number } | null;
 
   setView: (view: ViewId) => void;
   setBooted: (booted: boolean) => void;
   triggerUnlock: () => void;
   setQuickAccessOpen: (open: boolean) => void;
+  setArcadeOpen: (open: boolean, origin?: { x: number; y: number }) => void;
 }
 
 export const useSignalStore = create<SignalState>((set) => ({
@@ -30,11 +36,16 @@ export const useSignalStore = create<SignalState>((set) => ({
   unlocked: false,
   flickerAt: 0,
   quickAccessOpen: false,
+  arcadeOpen: false,
+  arcadeOrigin: null,
 
   setView: (view) => set({ view }),
   setBooted: (booted) => set({ booted }),
   triggerUnlock: () => set({ unlocked: true, flickerAt: performance.now() }),
   setQuickAccessOpen: (quickAccessOpen) => set({ quickAccessOpen }),
+  // Keep the last origin when closing so the overlay collapses back into the tablet
+  setArcadeOpen: (arcadeOpen, origin) =>
+    set(origin ? { arcadeOpen, arcadeOrigin: origin } : { arcadeOpen }),
 }));
 
 // Expose the store for debugging in dev builds only

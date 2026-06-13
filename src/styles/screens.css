@@ -339,7 +339,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  filter: grayscale(20%) contrast(1.05);
+  filter: grayscale(100%) sepia(50%) hue-rotate(150deg) brightness(0.95) contrast(1.2) saturate(1.8);
 }
 
 /* Abstract silhouette — swap for an <img> of you if desired */
@@ -771,3 +771,265 @@
 .screen-root *::-webkit-scrollbar { width: 5px; height: 5px; }
 .screen-root *::-webkit-scrollbar-track { background: rgba(54, 249, 216, 0.05); }
 .screen-root *::-webkit-scrollbar-thumb { background: rgba(54, 249, 216, 0.35); }
+
+/* ── SIGNAL//ARCADE attract screen (desk tablet glass) ───────────
+   The tablet itself only shows this idle attract loop; clicking it opens
+   the full-screen <Arcade> overlay below. */
+.arcade-attract {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.arcade-attract-logo {
+  font-size: 2.4em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+  text-shadow: 0 0 18px rgba(54, 249, 216, 0.6);
+}
+.arcade-attract-logo span { color: var(--amber); }
+.arcade-attract-sub {
+  font-size: 0.7em;
+  letter-spacing: 0.24em;
+  color: var(--text-dim);
+}
+.arcade-attract-cta {
+  margin-top: 4px;
+  font-size: 0.9em;
+  letter-spacing: 0.24em;
+  color: var(--amber);
+  animation: arcade-blink 1s steps(1) infinite alternate;
+}
+
+/* ── SIGNAL//ARCADE full-screen overlay (Pac-Man cabinet) ────────
+   Ported from the standalone pacman app. Everything is scoped under
+   .arcade-overlay so the game's generic class names (.btn, .game, .board…)
+   never collide with the rest of the desk UI. Palette + .glitch come from
+   the shared theme. */
+.arcade-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above HUD (20) and the recruiter modal (50) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 16px;
+  background: rgba(3, 5, 9, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.arcade-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.18) 2px 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* CRT power-on flash — a quick cyan bloom as the cabinet expands */
+.arcade-poweron {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(54, 249, 216, 0.35) 0%,
+    rgba(54, 249, 216, 0.08) 40%,
+    transparent 70%
+  );
+}
+
+.arcade-cabinet {
+  position: relative;
+  z-index: 2;
+  width: min(680px, 94vw);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.arcade-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.arcade-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #c8ede8;
+  text-shadow: 0 0 14px rgba(54, 249, 216, 0.6);
+}
+.arcade-title span { color: var(--cyan); }
+.arcade-sub {
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: rgba(54, 249, 216, 0.55);
+}
+.arcade-footer {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+.arcade-footer a { color: var(--cyan); }
+
+/* HUD panel — local copy so it can't clash with the portfolio's .hud-panel */
+.arcade-panel {
+  position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+}
+.arcade-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--cyan);
+  border-style: solid;
+  border-width: 0;
+}
+.arcade-corner-tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.arcade-corner-tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+.arcade-corner-bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+.arcade-corner-br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+.arcade-panel-title {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+}
+
+/* ── Game (scoped) ─────────────────────────────────────────────── */
+.arcade-overlay .game {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.arcade-overlay .readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+.arcade-overlay .readout strong { color: var(--cyan); font-weight: 700; }
+.arcade-overlay .status-running { color: var(--green); }
+.arcade-overlay .status-gameover { color: var(--red); }
+.arcade-overlay .status-done { color: var(--amber); }
+
+.arcade-overlay .board {
+  position: relative;
+  display: grid;
+  gap: 1px;
+  width: 100%;
+  aspect-ratio: 21 / 16;
+  background: rgba(54, 249, 216, 0.06);
+  border: 1px solid var(--border);
+  padding: 1px;
+}
+.arcade-overlay .cell { background: #070b11; }
+.arcade-overlay .cell.wall {
+  background: rgba(54, 249, 216, 0.14);
+  border: 1px solid rgba(54, 249, 216, 0.35);
+  box-shadow: inset 0 0 6px rgba(54, 249, 216, 0.15);
+}
+.arcade-overlay .cell.food {
+  background: radial-gradient(circle at center, var(--cyan) 0 16%, transparent 18%), #070b11;
+}
+.arcade-overlay .cell.pacman {
+  background: radial-gradient(circle at center, var(--amber) 0 38%, transparent 42%), #070b11;
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+  transition: all 0.12s linear;
+}
+.arcade-overlay .cell.ghost {
+  background: radial-gradient(circle at center, var(--magenta) 0 38%, transparent 42%), #070b11;
+  box-shadow: 0 0 10px rgba(255, 61, 245, 0.5);
+  animation: ghost-pulse 1.2s infinite;
+}
+@keyframes ghost-pulse { 50% { filter: brightness(0.65); } }
+
+.arcade-overlay .board-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(5, 7, 11, 0.82);
+  backdrop-filter: blur(2px);
+}
+.arcade-overlay .board-overlay-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  text-shadow: 0 0 18px rgba(54, 249, 216, 0.7);
+  animation: arcade-blink 0.9s steps(1) infinite alternate;
+}
+@keyframes arcade-blink { 50% { opacity: 0.55; } }
+
+.arcade-overlay .controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.arcade-overlay .hint {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+/* Shared button look for the overlay (RETURN TO DESK + in-game buttons) */
+.arcade-btn,
+.arcade-overlay .btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 14px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.arcade-btn:hover,
+.arcade-btn:focus-visible,
+.arcade-overlay .btn:hover,
+.arcade-overlay .btn:focus-visible {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px rgba(54, 249, 216, 0.3);
+}
+
+.arcade-overlay .dpad {
+  display: grid;
+  grid-template-areas: '. up .' 'left down right';
+  gap: 4px;
+}
+.arcade-overlay .dpad .btn { padding: 6px 12px; }
+.arcade-overlay .dpad-up { grid-area: up; }
+.arcade-overlay .dpad-left { grid-area: left; }
+.arcade-overlay .dpad-down { grid-area: down; }
+.arcade-overlay .dpad-right { grid-area: right; }
+@media (hover: hover) and (pointer: fine) {
+  .arcade-overlay .dpad { display: none; } /* touch controls only */
+}
