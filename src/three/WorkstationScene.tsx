@@ -4,12 +4,14 @@ import { CameraController } from './CameraController';
 import { RoomEnvironment } from './RoomEnvironment';
 import { DeskObjects } from './DeskObjects';
 import { Monitor } from './Monitor';
+import { Tablet } from './Tablet';
 import { MainTerminalScreen } from '../screens/MainTerminalScreen';
 import { AboutScreen } from '../screens/AboutScreen';
 import { SkillsScreen } from '../screens/SkillsScreen';
 import { ProjectsScreen } from '../screens/ProjectsScreen';
 import { CVScreen } from '../screens/CVScreen';
 import { ContactScreen } from '../screens/ContactScreen';
+import { ArcadeScreen } from '../screens/ArcadeScreen';
 
 /**
  * Clean 3×2 monitor grid — all six screens identical dimensions (0.82 × 0.52).
@@ -84,6 +86,16 @@ export default function WorkstationScene({ reducedMotion }: { reducedMotion: boo
         width={W} height={H}
         label="VIEW CV DOSSIER" accent="#36f9d8" mount="stand"
       ><CVScreen /></Monitor>
+
+      {/* ── Arcade tablet ────────────────────────────────────────
+          A tablet lying flat on the desk, front-right beside the mouse,
+          screen facing up. Opens SIGNAL//ARCADE (Pac-Man) when clicked.
+          rotation X=−90° lays it flat; Y≈desk top + half its thickness. */}
+      <Tablet
+        position={[0.78, 0.748, 0.30]} rotation={[-Math.PI / 2, 0, 0]}
+        width={0.40} height={0.30}
+        label="OPEN SIGNAL//ARCADE" accent="#ffb347"
+      ><ArcadeScreen /></Tablet>
     </Canvas>
   );
 }
