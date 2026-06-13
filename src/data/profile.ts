@@ -25,7 +25,7 @@ export const profile = {
   strengths: 'Debugging, automation, infrastructure, APIs, monitoring, UI polish',
   currentTarget: 'Backend Developer / Full-Stack Developer roles',
 
-  email: 'lucasboglione@gmail.com',
+  email: 'contact@lucasboglione.com',
   github: 'https://github.com/nzarg',
   /** Leave empty to hide the LinkedIn link everywhere. TODO: add your URL */
   linkedin: '',
