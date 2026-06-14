@@ -3,3 +3,6 @@ dist
 *.tsbuildinfo
 .DS_Store
 *.local
+
+# Scratch / working markdown notes (README.md, CLAUDE.md stay tracked at root)
+docs/
