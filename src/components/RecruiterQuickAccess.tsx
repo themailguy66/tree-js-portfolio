@@ -65,6 +65,7 @@ export function RecruiterQuickAccess() {
                 ✕
               </button>
               <HUDPanel className="rqa-modal" title="RECRUITER QUICK ACCESS — SUMMARY">
+                <div className="rqa-scroll">
 
                 <section className="rqa-section">
                   <h2>{profile.name}</h2>
@@ -75,35 +76,37 @@ export function RecruiterQuickAccess() {
                   </p>
                 </section>
 
-                <section className="rqa-section">
-                  <h3>TOP SKILLS</h3>
-                  <div className="rqa-chips">
-                    {profile.topSkills.map((s) => (
-                      <span className="rqa-chip" key={s}>{s}</span>
+                <div className="rqa-grid">
+                  <section className="rqa-section rqa-featured">
+                    <h3>FEATURED PROJECTS</h3>
+                    {featured.map((p) => (
+                      <div className="rqa-project" key={p.id}>
+                        <strong>{p.name}</strong> <em>— {p.type}</em>
+                        <p>{p.description}</p>
+                      </div>
                     ))}
-                  </div>
-                </section>
+                  </section>
 
-                <section className="rqa-section">
-                  <h3>FEATURED PROJECTS</h3>
-                  {featured.map((p) => (
-                    <div className="rqa-project" key={p.id}>
-                      <strong>{p.name}</strong> <em>— {p.type}</em>
-                      <p>{p.description}</p>
+                  <section className="rqa-section rqa-skills">
+                    <h3>TOP SKILLS</h3>
+                    <div className="rqa-chips">
+                      {profile.topSkills.map((s) => (
+                        <span className="rqa-chip" key={s}>{s}</span>
+                      ))}
                     </div>
-                  ))}
-                </section>
+                  </section>
 
-                <section className="rqa-section">
-                  <h3>EXPERIENCE</h3>
-                  <ul className="rqa-exp">
-                    {experience.map((e) => (
-                      <li key={e.id}>
-                        <strong>{e.title}</strong> <span>({e.period})</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+                  <section className="rqa-section rqa-exp-section">
+                    <h3>EXPERIENCE</h3>
+                    <ul className="rqa-exp">
+                      {experience.map((e) => (
+                        <li key={e.id}>
+                          <strong>{e.title}</strong> <span>({e.period})</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                </div>
 
                 <section className="rqa-section rqa-actions">
                   <button
@@ -128,6 +131,7 @@ export function RecruiterQuickAccess() {
                   )}
                 </section>
                 {cvError && <p className="rqa-error">{cvError}</p>}
+                </div>
               </HUDPanel>
             </motion.div>
           </motion.div>
